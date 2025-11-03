@@ -1,0 +1,10 @@
+{
+    "name": "includes/s3-uploader",
+    "type": "project",
+    "license": "MIT",
+    "minimum-stability": "stable",
+    "require": {
+        "aws/aws-sdk-php": "^3.347",
+        "guzzlehttp/guzzle": "^7.9"
+    }
+}

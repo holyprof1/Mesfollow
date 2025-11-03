@@ -1,0 +1,91 @@
+# --- core ---
+Options -MultiViews
+RewriteEngine On
+
+# --- serve these files directly; don't rewrite them through index.php ---
+RewriteRule ^payment-response\.php$ - [L]
+RewriteRule ^paystack-cb\.php$      - [L]
+# allow the main AJAX endpoint (needed for Settings → Fees on mobile)
+RewriteRule ^requests/request\.php$ - [L]
+# if the old path still exists, let it pass too (harmless if missing)
+RewriteRule ^requests/paystack-callback\.php$ - [L]
+
+# --- canonicalize host + HTTPS (optional but recommended) ---
+RewriteCond %{HTTP_HOST} ^www\.mesfollow\.com$ [NC]
+RewriteRule ^ https://mesfollow.com%{REQUEST_URI} [L,R=301]
+
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+RewriteBase /
+
+# --- custom error pages ---
+ErrorDocument 404 https://mesfollow.com/404
+ErrorDocument 403 https://mesfollow.com/403
+
+# --- main router: send everything else to index.php unless it's a real file/dir ---
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.+)$ index.php/$1 [L,QSA]
+
+# --- folder hardening ---
+# (leave protection ON, but don't block the allowed AJAX endpoint)
+# --- folder hardening (allow /requests/* for AJAX) ---
+# Don't block the requests/ endpoints (they are your site’s AJAX APIs)
+RewriteCond %{REQUEST_URI} !^/requests/ [NC]
+RewriteCond %{HTTP_REFERER} !^https://mesfollow\.com/ [NC]
+RewriteRule ^(uploads|themes|includes|sources|langs|src)/ - [F]
+
+# --- performance: gzip ---
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE application/javascript
+  AddOutputFilterByType DEFLATE application/rss+xml
+  AddOutputFilterByType DEFLATE application/vnd.ms-fontobject
+  AddOutputFilterByType DEFLATE application/x-font
+  AddOutputFilterByType DEFLATE application/x-font-opentype
+  AddOutputFilterByType DEFLATE application/x-font-otf
+  AddOutputFilterByType DEFLATE application/x-font-truetype
+  AddOutputFilterByType DEFLATE application/x-font-ttf
+  AddOutputFilterByType DEFLATE application/x-javascript
+  AddOutputFilterByType DEFLATE application/xhtml+xml
+  AddOutputFilterByType DEFLATE application/xml
+  AddOutputFilterByType DEFLATE font/opentype
+  AddOutputFilterByType DEFLATE font/otf
+  AddOutputFilterByType DEFLATE font/ttf
+  AddOutputFilterByType DEFLATE image/svg+xml
+  AddOutputFilterByType DEFLATE image/x-icon
+  AddOutputFilterByType DEFLATE text/css
+  AddOutputFilterByType DEFLATE text/html
+  AddOutputFilterByType DEFLATE text/javascript
+  AddOutputFilterByType DEFLATE text/plain
+  AddOutputFilterByType DEFLATE text/xml
+
+  BrowserMatch ^Mozilla/4 gzip-only-text/html
+  BrowserMatch ^Mozilla/4\.0[678] no-gzip
+  BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+  Header append Vary User-Agent
+</IfModule>
+
+# --- performance: caching ---
+<IfModule mod_expires.c>
+  ExpiresActive on
+  ExpiresDefault "access plus 1 month"
+
+  ExpiresByType image/gif "access plus 1 month"
+  ExpiresByType image/png "access plus 1 month"
+  ExpiresByType image/jpg "access plus 1 month"
+  ExpiresByType image/jpeg "access plus 1 month"
+  ExpiresByType text/html "access plus 3 days"
+  ExpiresByType text/xml "access plus 1 seconds"
+  ExpiresByType text/plain "access plus 1 seconds"
+  ExpiresByType application/xml "access plus 1 seconds"
+  ExpiresByType application/rss+xml "access plus 1 seconds"
+  ExpiresByType application/json "access plus 1 seconds"
+  ExpiresByType text/css "access plus 1 week"
+  ExpiresByType text/javascript "access plus 1 week"
+  ExpiresByType application/javascript "access plus 1 week"
+  ExpiresByType application/x-javascript "access plus 1 week"
+  ExpiresByType image/x-ico "access plus 1 year"
+  ExpiresByType image/x-icon "access plus 1 year"
+  ExpiresByType application/pdf "access plus 1 month"
+</IfModule>

@@ -1,0 +1,286 @@
+/* ========================================
+   TIKTOK-STYLE GRID LAYOUT FOR MEDIA
+   (Photos, Videos, Audios)
+   UPDATED: Stats always visible
+   ======================================== */
+
+/* Grid Container */
+.media-grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+/* Grid Item Wrapper */
+.media-grid-item {
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%; /* 1:1 Aspect Ratio (square like TikTok) */
+    overflow: hidden;
+    background: #000;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.media-grid-item:hover {
+    transform: scale(0.98);
+}
+
+/* Content Inside Grid Item */
+.media-grid-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Image Styling */
+.media-grid-content img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+/* Video Styling */
+.media-grid-content video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+/* Audio Item Special Styling */
+.media-grid-item.audio-item {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.media-grid-item.audio-item .media-grid-content {
+    flex-direction: column;
+    padding: 15px;
+    text-align: center;
+}
+
+.audio-icon {
+    font-size: 48px;
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.audio-title {
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    line-height: 1.4;
+}
+
+/* Overlay - ALWAYS VISIBLE NOW */
+.media-grid-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
+    padding: 10px;
+    opacity: 1; /* Changed from 0 to 1 - Always visible */
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+/* Keep hover effect for extra emphasis */
+.media-grid-item:hover .media-grid-overlay {
+    opacity: 1;
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);
+}
+
+/* Stats in Overlay */
+.media-grid-stats {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.media-grid-stat {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.media-grid-stat svg {
+    width: 16px;
+    height: 16px;
+    fill: #fff;
+}
+
+/* Video Play Icon */
+.video-play-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0,0,0,0.6);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.video-play-icon svg {
+    width: 16px;
+    height: 16px;
+    fill: #fff;
+    margin-left: 2px;
+}
+
+/* Multiple Images/Videos Indicator */
+.media-count-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0,0,0,0.7);
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    pointer-events: none;
+}
+
+/* Premium/Locked Badge */
+.media-premium-badge {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(203, 12, 159, 0.9);
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* Responsive Grid */
+@media screen and (max-width: 768px) {
+    .media-grid-container {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .media-grid-container {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1px;
+    }
+    
+    .media-grid-stat {
+        font-size: 11px;
+    }
+    
+    .video-play-icon {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .video-play-icon svg {
+        width: 14px;
+        height: 14px;
+    }
+}
+
+/* Loading State */
+.media-grid-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    color: #999;
+    font-size: 14px;
+}
+
+/* Empty State */
+.media-grid-empty {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 20px;
+    text-align: center;
+    color: #999;
+}
+
+.media-grid-empty svg {
+    width: 64px;
+    height: 64px;
+    fill: #ccc;
+    margin-bottom: 16px;
+}
+
+.media-grid-empty h3 {
+    font-size: 18px;
+    color: #666;
+    margin: 0 0 8px 0;
+}
+
+.media-grid-empty p {
+    font-size: 14px;
+    color: #999;
+    margin: 0;
+}
+
+/* Blur effect for premium content */
+.media-grid-item.premium-locked .media-grid-content img,
+.media-grid-item.premium-locked .media-grid-content video {
+    filter: blur(20px);
+    transform: scale(1.1);
+}
+
+/* Animation for grid items appearing */
+@keyframes fadeInGrid {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.media-grid-item {
+    animation: fadeInGrid 0.3s ease forwards;
+}
+
+/* Stagger animation delay */
+.media-grid-item:nth-child(1) { animation-delay: 0.05s; }
+.media-grid-item:nth-child(2) { animation-delay: 0.1s; }
+.media-grid-item:nth-child(3) { animation-delay: 0.15s; }
+.media-grid-item:nth-child(4) { animation-delay: 0.2s; }
+.media-grid-item:nth-child(5) { animation-delay: 0.25s; }
+.media-grid-item:nth-child(6) { animation-delay: 0.3s; }
