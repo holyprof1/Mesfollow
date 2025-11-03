@@ -5,3 +5,6 @@ requests/logs
 *.log
 node_modules
 
+
+# large artifacts
+*.zip
