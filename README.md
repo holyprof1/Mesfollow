@@ -1,4 +1,4 @@
-## JustFans - Paid creator social media platform
+## MESFOLLOW - Paid creator social media platform
 
 #### About
 
@@ -141,8 +141,8 @@ _Google Lighthouse/Page Insights report sample_
 
 #### Questions?
 
-Send us a message over http://qdev.tech .
+Send us a message over https://tobi.holyprofweb.com .
 
 <hr>
 
-Qdev Techs SRL - All rights reserved.
+HOLYPROF - All rights reserved.
