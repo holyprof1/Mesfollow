@@ -70,7 +70,7 @@ For stripe:
 For PP:
 
 1. Login to PP Dev dashboard, create new app
-2. Get Paypal's ClientID & Paypal Secret key and add them into the admin
+2. Get Paypal's ClientID & Paypal Secret key and add them into the admin directly
 
 
 ### Ionicons usage
