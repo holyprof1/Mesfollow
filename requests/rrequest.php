@@ -123,47 +123,6 @@ if ($watermarkStatus == 'yes') {
     /**
      * Apply watermark logo and optional link text to image
      */
-    function watermark_image($target, $siteWatermarkLogo, $LinkWatermarkStatus, $ourl) {
-        include_once "../includes/SimpleImage-master/src/claviska/SimpleImage.php";
-
-        if ($LinkWatermarkStatus == 'yes') {
-            try {
-                $image = new \claviska\SimpleImage();
-                $image
-                    ->fromFile($target)
-                    ->autoOrient()
-                    ->overlay('../' . $siteWatermarkLogo, 'top left', 1, 30, 30)
-                    ->text($ourl, array(
-                        'fontFile' => '../src/droidsanschinese.ttf',
-                        'size' => 15,
-                        'color' => 'red',
-                        'anchor' => 'bottom right',
-                        'xOffset' => -10,
-                        'yOffset' => -10
-                    ))
-                    ->toFile($target, 'image/jpeg');
-
-                return true;
-            } catch (Exception $err) {
-                return $err->getMessage();
-            }
-        } else {
-            try {
-                $image = new \claviska\SimpleImage();
-                $image
-                    ->fromFile($target)
-                    ->autoOrient()
-                    ->overlay('../' . $siteWatermarkLogo, 'top left', 1, 30, 30)
-                    ->toFile($target, 'image/jpeg');
-
-                return true;
-            } catch (Exception $err) {
-                return $err->getMessage();
-            }
-        }
-    }
-
-} else if ($LinkWatermarkStatus == 'yes') {
     /**
      * Fallback watermark logic (only link text, no logo)
      */
