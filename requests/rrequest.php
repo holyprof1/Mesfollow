@@ -158,15 +158,7 @@ if ($watermarkStatus == 'yes') {
  * @param string $url
  * @return string cleaned URL without protocol
  */
-function remove_http($url) {
-    $disallowed = array('http://', 'https://');
-    foreach ($disallowed as $d) {
-        if (strpos($url, $d) === 0) {
-            return str_replace($d, '', $url);
-        }
-    }
-    return $url;
-}
+
 if (isset($_POST['f']) && $logedIn == '1') {
 	$loginFormClass = '';
 	$type = mysqli_real_escape_string($db, $_POST['f']);
